@@ -6,5 +6,4 @@ bokeh
 dill
 jinja2
 pip
-simplejson
 flask
