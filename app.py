@@ -1,7 +1,8 @@
 from flask import Flask, render_template, request, redirect
-from bokeh.plotting import figure, output_file, show
-from bokeh.io import output_notebook
-from bokeh.models import ColumnDataSource
+from bokeh.embed import components
+from bokeh.plotting import figure
+from bokeh.resources import INLINE
+
 import json
 import requests
 import numpy as np
@@ -24,11 +25,10 @@ def graph():
     try: app.vars['adj_close'] = request.form['adj_close']
     except: app.vars['adj_close'] = ''
     # f = open('stock.txt', 'w')
-    # f.write('Stock: %s\n'%(stock))
     # f.write('Checked: %s\n\n'%(app.vars))
     # f.close()
-
     symbol=request.form['stock_name']
+    if symbol=='': symbol='GOOG'
 
     api_key='XPHT5FFL8U5Q53PN'
     function = 'TIME_SERIES_DAILY_ADJUSTED'
@@ -55,22 +55,32 @@ def graph():
     adj_cl = df['5. adjusted close'][start:end]
     adj_cl = adj_cl.astype(float)
 
-    # output_file('stockPlot.html')
-    #
-    # p1 = figure(x_axis_type='datetime', title = 'Stock 2020: '+symbol,
-    #             x_axis_label = 'date', y_axis_label = 'price')
-    # p1.title.text_font_size = '15pt'
-    # p1.title.align = 'center'
-    # if app.vars['open']:
-    #     p1.line(x,op,legend_label="open",line_color='blue')
-    # if app.vars['close']:
-    #     p1.line(x,cl,legend_label='close',line_color='red')
-    # if app.vars['adj_close']:
-    #     p1.line(x,adj_cl,legend_label='adj close',line_color='green')
-    #
-    # show(p1)
+    p1 = figure(x_axis_type='datetime', title = 'Stock 2020: '+symbol,
+                x_axis_label = 'date', y_axis_label = 'price',
+                plot_width=600, plot_height=600)
+    p1.title.text_font_size = '15pt'
+    p1.title.align = 'center'
+    if app.vars['open']:
+        p1.line(x,op,legend_label="open",line_color='blue')
+    if app.vars['close']:
+        p1.line(x,cl,legend_label='close',line_color='red')
+    if app.vars['adj_close']:
+        p1.line(x,adj_cl,legend_label='adj close',line_color='green')
 
-    return render_template('graph.html')
+    # grab the static resources
+    js_resources = INLINE.render_js()
+    css_resources = INLINE.render_css()
+
+    # render template
+    script, div = components(p1)
+    html = render_template(
+        'graph.html',
+        plot_script=script,
+        plot_div=div,
+        js_resources=js_resources,
+        css_resources=css_resources,
+    )
+    return html
 
 #@app.route('/graph',methods=['POST'])
 #def graph():
