@@ -8,9 +8,9 @@ def index():
     else:
         return render_template('graph.html')
 
-#@app.route('/graph')
-#def graph():
-#    return render_template('graph.html')
+@app.route('/graph',methods=['POST'])
+def graph():
+    return render_template('graph.html')
 
 if __name__ == '__main__':
     #app.run(port=33507)
