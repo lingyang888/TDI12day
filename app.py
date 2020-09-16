@@ -30,6 +30,9 @@ def graph():
     symbol=request.form['stock_name']
     if symbol=='': symbol='GOOG'
 
+    url1 = 'https://www.google.com/search?tbm=fin&q=' + symbol
+
+
     api_key='XPHT5FFL8U5Q53PN'
     function = 'TIME_SERIES_DAILY_ADJUSTED'
 
@@ -79,8 +82,10 @@ def graph():
         plot_div=div,
         js_resources=js_resources,
         css_resources=css_resources,
+        url1=url1
     )
     return html
+
 
 #@app.route('/graph',methods=['POST'])
 #def graph():
