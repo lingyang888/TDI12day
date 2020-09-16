@@ -6,7 +6,7 @@ import requests
 import numpy as np
 import pandas as pd
 
-symbol='GOOG'
+symbol='IBM'
 
 api_key='XPHT5FFL8U5Q53PN'
 function = 'TIME_SERIES_DAILY_ADJUSTED'
