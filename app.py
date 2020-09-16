@@ -55,20 +55,20 @@ def graph():
     adj_cl = df['5. adjusted close'][start:end]
     adj_cl = adj_cl.astype(float)
 
-    output_file('stockPlot.html')
-
-    p1 = figure(x_axis_type='datetime', title = 'Stock 2020: '+symbol,
-                x_axis_label = 'date', y_axis_label = 'price')
-    p1.title.text_font_size = '15pt'
-    p1.title.align = 'center'
-    if app.vars['open']:
-        p1.line(x,op,legend_label="open",line_color='blue')
-    if app.vars['close']:
-        p1.line(x,cl,legend_label='close',line_color='red')
-    if app.vars['adj_close']:
-        p1.line(x,adj_cl,legend_label='adj close',line_color='green')
-
-    show(p1)
+    # output_file('stockPlot.html')
+    #
+    # p1 = figure(x_axis_type='datetime', title = 'Stock 2020: '+symbol,
+    #             x_axis_label = 'date', y_axis_label = 'price')
+    # p1.title.text_font_size = '15pt'
+    # p1.title.align = 'center'
+    # if app.vars['open']:
+    #     p1.line(x,op,legend_label="open",line_color='blue')
+    # if app.vars['close']:
+    #     p1.line(x,cl,legend_label='close',line_color='red')
+    # if app.vars['adj_close']:
+    #     p1.line(x,adj_cl,legend_label='adj close',line_color='green')
+    #
+    # show(p1)
 
     return render_template('graph.html')
 
